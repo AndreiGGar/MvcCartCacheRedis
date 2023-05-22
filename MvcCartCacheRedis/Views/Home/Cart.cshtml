@@ -1,0 +1,75 @@
+﻿@model IEnumerable<MvcCartCacheRedis.Models.Libro>
+
+@{
+    ViewData["Title"] = "Carrito";
+}
+
+<h4>Carrito</h4>
+
+@if (Model == null || Model.Count() < 1)
+{
+    <div class="alert alert-secondary text-center mt-4" role="alert">
+        <h5>@ViewData["MESSAGE"]</h5>
+    </div>
+}
+else
+{
+    <form asp-controller="Home" asp-action="Checkout">
+        <table class="table table-bordered table-hover text-center align-middle">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Imagen)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Titulo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Autor)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Precio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Descripcion)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="@item.Imagen" style="width: 80px; height: 120px;" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Titulo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Autor)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Precio)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td>
+                            <a asp-controller="Home" asp-action="Cart" asp-route-idlibro="@item.Id" style="color: red">
+                                <i class="fa-solid fa-trash fa-xl"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-success">Realizar pedido</button>
+    </form>
+}

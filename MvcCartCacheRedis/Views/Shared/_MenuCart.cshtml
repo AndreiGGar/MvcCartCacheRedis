@@ -1,0 +1,38 @@
+﻿@{
+    int qtyCart = 0;
+    var cacheKey = Model as string;
+
+    if (!string.IsNullOrEmpty(cacheKey))
+    {
+        var serviceCart = Context.RequestServices.GetService<ServiceCart>();
+        var cart = await serviceCart.GetCartAsync(cacheKey);
+
+        if (cart != null)
+        {
+            qtyCart = cart.Count;
+        }
+    }
+}
+
+@if (qtyCart > 0)
+{
+    <li class="nav-item me-3">
+        <a class="nav-link" asp-controller="Home" asp-action="Cart" style="display: flex; align-items: center;">
+            <span class="badge bg-dark text-white me-1">
+                @qtyCart
+            </span>
+            <i class="fa-solid fa-cart-shopping fa-lg" style="color: black"></i>
+        </a>
+    </li>
+}
+else
+{
+    <li class="nav-item me-3">
+        <a class="nav-link" asp-controller="Home" asp-action="Cart" style="display: flex; align-items: center;">
+            <span class="badge bg-dark text-white me-1">
+                0
+            </span>
+            <i class="fa-solid fa-cart-shopping fa-lg" style="color: black"></i>
+        </a>
+    </li>
+}
